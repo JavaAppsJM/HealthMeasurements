@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:fragment="common_header(vartitle)">
+    <meta charset="UTF-8">
+    <title th:replace="${vartitle}">The awesome application</title>
+    <link rel="stylesheet" type="text/css" media="all" href="../main.css" th:href="@{http://localhost:8083/main.css}" />
+</head>
+<body>
+<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="#" th:href="@{/}">Index <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="#" th:href="@{/healthmeasurements/thymeleaf}">Thymleaf</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" th:href="@{/healthmeasurements/getAllGenBellyMs}">Show all belly measurements</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" th:href="@{/healthmeasurements/getAllGenBPresMs}">Show all blood pressure measurements</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" th:href="@{/healthmeasurements/addGenBellyM}">Add belly measurement</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" th:href="@{/healthmeasurements/addGenBPresM}">Add blood pressure measurement</a>
+            </li>
+        </ul>
+    </div>
+    <hr>
+</nav>
+</body>
+</html>

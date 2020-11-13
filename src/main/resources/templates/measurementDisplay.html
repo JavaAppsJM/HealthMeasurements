@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${{collist.hTitle}}">Display Health Measurements</title>
+    <link rel="stylesheet" type="text/css" media="all" href="../main.css" th:href="@{http://localhost:8083/main.css}" />
+
+</head>
+<body>
+<div th:insert="fragments/header :: navbar"></div>
+<div class="container">
+    <h2 th:text="${{collist.hTitle}}">All Measurements in System</h2>
+    <table class="table" border=1>
+        <thead class="thead-dark">
+        <tr>
+            <th th:each="colum : ${collist.hColNames}" scope="col" th:text="${{colum}}">Measurement Id</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="measurement : ${collist.hContent}">
+            <td th:each="coll : ${measurement}" th:text="${{coll}}">id</td>
+            <td>
+                <a class="btn btn-primary" type="button"
+                   th:href="@{/healthmeasurements/{id}/editGen{mtype}(id=${measurement[0]}, mtype=${collist.hDataGroupName})}">edit</a>
+                <a class="btn btn-primary" type="button"
+                   th:href="@{/healthmeasurements/{id}/deleteGen{mtype}(id=${measurement[0]}, mtype=${collist.hDataGroupName})}">delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="javascript">
+
+</div>
+
+<script src="../static/script.js" th:src="@{http://localhost:8083/script.js}"></script>
+
+</body>
+</html>

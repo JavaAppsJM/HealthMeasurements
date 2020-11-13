@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head >
+    <meta charset="UTF-8">
+    <title th:text="${{GenMap.hTitle}}">Placeholder Title</title>
+    <link rel="stylesheet" type="text/css" media="all" href="main.css" th:href="@{http://localhost:8083/main.css}">
+
+</head>
+<body>
+<div th:insert="fragments/header :: navbar"></div>
+<div class="container">
+    <div class="container">
+        <h2 th:text="${{GenMap.hTitle}}">placeholder</h2>
+        <form th:action="${{GenMap.hFormActionUrl}}" method="post">
+            <div class="form-group" th:each="row : ${GenMap.hFormContentList}">
+                <label th:for="${{row[0]}}" th:text="${{row[0]}}">placeholder</label>
+                <input type="text" class="form-control" th:id="${{row[0]}}" th:name="${{row[1]}}" th:value="${{row[2]}}">
+            </div>
+
+            <input type="hidden" class="form-control" id="bellyId" name="mesureId" th:value="${GenMap.mesureId}">
+
+            <div class="form-group" id="editdatefields">
+                <label for="measurementDay" th:text="${{GenMap.labelMesureDate}}">Date</label>
+                <input type="text" class="form-control" id="measurementDay" name="day" th:value="${{GenMap.day}}">
+                <input type="text" class="form-control" id="measurementMonth" name="month" th:value="${{GenMap.month}}">
+                <input type="text" class="form-control" id="measurementYear" name="year" th:value="${{GenMap.year}}">
+            </div>
+
+            <div id="submitbutton" class="button">
+                <input type="submit" class="btn btn-primary" value="save">
+            </div>
+        </form>
+        <div id="javascript">
+
+        </div>
+    </div>
+</div>
+<div id="footer">
+    Dit is de footer placeholder !!
+</div>
+
+<script src="script.js" th:src="@{http://localhost:8083/script.js}"></script>
+
+</body>
+</html>
