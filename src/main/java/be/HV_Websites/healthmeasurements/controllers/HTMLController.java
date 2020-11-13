@@ -17,11 +17,11 @@ public class HTMLController {
     @Autowired
     MeasurementService measurementService;
 
-    // Controller thymeleaf experiments
-    @GetMapping("/thymeleaf")
-    public ModelAndView getThyme(ModelMap modelMap) { // ModelMap is like a Hashmap spring will automatically initialize this for you.
-        modelMap.addAttribute("collist", "azerty");
-        return new ModelAndView("thymeleaf", modelMap);
+    // Controller start
+    @GetMapping("/start")
+    public ModelAndView runStart(ModelMap modelMap) { // ModelMap is like a Hashmap spring will automatically initialize this for you.
+        modelMap.addAttribute("startMap", measurementService.fillIntStart());
+        return new ModelAndView("start", modelMap);
     }
 
     // Controllers for Belly measurements

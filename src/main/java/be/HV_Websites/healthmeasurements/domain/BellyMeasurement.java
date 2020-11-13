@@ -3,8 +3,8 @@ package be.HV_Websites.healthmeasurements.domain;
 import javax.persistence.*;
 import java.time.LocalDate;
 
-@NamedQuery(name = "getAllBellyMs",query = "select m from BellyMesurement as m order by m.mesureDate")
-@NamedQuery(name = "getBellyMById",query = "select m from BellyMesurement as m where m.mesureId=:srchid")
+@NamedQuery(name = "getAllBellyMs",query = "select m from BellyMeasurement as m order by m.mesureDate")
+@NamedQuery(name = "getBellyMById",query = "select m from BellyMeasurement as m where m.mesureId=:srchid")
 @Entity
 public class BellyMeasurement {
     @Id

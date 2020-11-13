@@ -10,6 +10,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -33,14 +34,56 @@ public class MeasurementService {
         this.locale = locale;
     }
 
+    // Fill Nav Bar
+    public List<NavBarLine> fillNavBar(){
+        // Prepare Nav Bar
+        List<NavBarLine> navBar = new ArrayList<>();
+        NavBarLine navLine1 = new NavBarLine();
+        navLine1.setNavText(ms.getMessage("start",new Object[] {}, locale));
+        navLine1.setNavURL("/healthmeasurements/start");
+        navBar.add(navLine1);
+        NavBarLine navLine2 = new NavBarLine();
+        navLine2.setNavText(ms.getMessage("showBelly",new Object[] {}, locale));
+        navLine2.setNavURL("/healthmeasurements/getAllGenBellyMs");
+        navBar.add(navLine2);
+        NavBarLine navLine3 = new NavBarLine();
+        navLine3.setNavText(ms.getMessage("showBPres",new Object[] {}, locale));
+        navLine3.setNavURL("/healthmeasurements/getAllGenBPresMs");
+        navBar.add(navLine3);
+        NavBarLine navLine4 = new NavBarLine();
+        navLine4.setNavText(ms.getMessage("addBelly",new Object[] {}, locale));
+        navLine4.setNavURL("/healthmeasurements/addGenBellyM");
+        navBar.add(navLine4);
+        NavBarLine navLine5 = new NavBarLine();
+        navLine5.setNavText(ms.getMessage("addBPres",new Object[] {}, locale));
+        navLine5.setNavURL("/healthmeasurements/addGenBPresM");
+        navBar.add(navLine5);
+
+        return navBar;
+    }
+
+    public HTMLIntStart fillIntStart(){
+        HTMLIntStart hIntStart = new HTMLIntStart();
+        hIntStart.sethTitle(ms.getMessage("startTitle",new Object[] {}, locale));
+        hIntStart.setNavBar(fillNavBar());
+
+        return hIntStart;
+    }
+
     // Belly services
     public HTMLIntDisplay fillIntDisplayWBelly(List<BellyMeasurement> bellyMesurementList) {
+        HTMLIntDisplay hColTemplate = new HTMLIntDisplay();
+        hColTemplate.sethTitle(ms.getMessage("bellydisplayTitle",new Object[] {}, locale));
+        hColTemplate.sethDataGroupName("BellyM");
+        hColTemplate.setNavBar(fillNavBar());
+
         // Prepare col names
         String[] colList = new String[4];
         colList[0] = ms.getMessage("measurementId",new Object[] {}, locale);
         colList[1] = ms.getMessage("measurementDate",new Object[] {}, locale);
         colList[2] = ms.getMessage("circumreference", new Object[] {}, locale);
         colList[3] = ms.getMessage("actions",new Object[] {}, locale);
+        hColTemplate.sethColNames(colList);
 
         // Prepare Content
         String[][] displayList = new String[bellyMesurementList.size()][3];
@@ -55,11 +98,7 @@ public class MeasurementService {
             j = 0;
             i++;
         }
-        HTMLIntDisplay hColTemplate = new HTMLIntDisplay();
-        hColTemplate.sethColNames(colList);
         hColTemplate.sethContent(displayList);
-        hColTemplate.sethTitle(ms.getMessage("bellydisplayTitle",new Object[] {}, locale));
-        hColTemplate.sethDataGroupName("BellyM");
 
         return hColTemplate;
     }
@@ -86,6 +125,8 @@ public class MeasurementService {
         htmlTemplate.setMonth(bellyMesurement.getMesureDate().getMonthValue());
         htmlTemplate.setYear(bellyMesurement.getMesureDate().getYear());
         htmlTemplate.setLabelMesureDate(ms.getMessage("labelDate", new Object[] {}, locale));
+        htmlTemplate.setNavBar(fillNavBar());
+
         return htmlTemplate;
     }
 
@@ -127,6 +168,11 @@ public class MeasurementService {
 
     // Blood pressure services
     public HTMLIntDisplay fillIntDisplayWBPres(List<BloodPressureMeasurement> bloodPressureMesurementList) {
+        HTMLIntDisplay hColTemplate = new HTMLIntDisplay();
+        hColTemplate.sethTitle(ms.getMessage("bpresdisplayTitle",new Object[] {}, locale));
+        hColTemplate.sethDataGroupName("BPresM");
+        hColTemplate.setNavBar(fillNavBar());
+
         // Prepare col names
         String[] colList = new String[6];
         colList[0] = ms.getMessage("measurementId",new Object[] {}, locale);
@@ -135,6 +181,7 @@ public class MeasurementService {
         colList[3] = ms.getMessage("bloodpressureh", new Object[] {}, locale);
         colList[4] = ms.getMessage("bloodpressurel", new Object[] {}, locale);
         colList[5] = ms.getMessage("actions",new Object[] {}, locale);
+        hColTemplate.sethColNames(colList);
 
         // Prepare Content
         String[][] displayList = new String[bloodPressureMesurementList.size()][5];
@@ -153,16 +200,18 @@ public class MeasurementService {
             j = 0;
             i++;
         }
-        HTMLIntDisplay hColTemplate = new HTMLIntDisplay();
-        hColTemplate.sethColNames(colList);
         hColTemplate.sethContent(displayList);
-        hColTemplate.sethTitle(ms.getMessage("bpresdisplayTitle",new Object[] {}, locale));
-        hColTemplate.sethDataGroupName("BPresM");
 
         return hColTemplate;
     }
 
     public HTMLIntEdit fillIntEditWBPres(BloodPressureMeasurement measurement, String action){
+        HTMLIntEdit htmlTemplate = new HTMLIntEdit();
+        htmlTemplate.sethTitle(ms.getMessage(action + "bpresTitle", new Object[] {}, locale));
+        String formActURL = "/healthmeasurements/" + action + "GenBPresM";
+        htmlTemplate.sethFormActionUrl(formActURL);
+        htmlTemplate.setNavBar(fillNavBar());
+
         // Prepare formfields
         String[][] tempList = new String[3][3];
         tempList[0][0] = ms.getMessage("heartbeat", new Object[] {}, locale);
@@ -174,13 +223,8 @@ public class MeasurementService {
         tempList[0][2] = String.valueOf(measurement.getHeartBeat());
         tempList[1][2] = String.valueOf(measurement.getBloodPressureHigh());
         tempList[2][2] = String.valueOf(measurement.getBloodPressureLow());
-
-        // Fill template
-        HTMLIntEdit htmlTemplate = new HTMLIntEdit();
-        htmlTemplate.sethTitle(ms.getMessage(action + "bpresTitle", new Object[] {}, locale));
-        String formActURL = "/healthmeasurements/" + action + "GenBPresM";
-        htmlTemplate.sethFormActionUrl(formActURL);
         htmlTemplate.sethFormContentList(tempList);
+
         htmlTemplate.setCircumRef(measurement.getHeartBeat());
         htmlTemplate.setCircumRef(measurement.getBloodPressureHigh());
         htmlTemplate.setCircumRef(measurement.getBloodPressureLow());
@@ -192,6 +236,7 @@ public class MeasurementService {
         htmlTemplate.setMonth(measurement.getMesureDate().getMonthValue());
         htmlTemplate.setYear(measurement.getMesureDate().getYear());
         htmlTemplate.setLabelMesureDate(ms.getMessage("labelDate", new Object[] {}, locale));
+
         return htmlTemplate;
     }
 

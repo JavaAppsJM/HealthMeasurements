@@ -7,7 +7,13 @@
 
 </head>
 <body>
-<div th:insert="fragments/header :: navbar"></div>
+<!--<div th:insert="fragments/header :: navbar"></div>-->
+<ul class="navbar-nav mr-auto" th:each="row : ${collist.navBar}">
+    <li class="nav-item active">
+        <a class="nav-link" href="#" th:href="${{row.navURL}}" th:text="${row.navText}">Index <span class="sr-only">(current)</span></a>
+    </li>
+</ul>
+
 <div class="container">
     <h2 th:text="${{collist.hTitle}}">All Measurements in System</h2>
     <table class="table" border=1>
